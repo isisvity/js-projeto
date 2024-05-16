@@ -1,95 +1,111 @@
+/variáveis da bolinha
+let xBolinha = 100;
+let yBolinha = 200;
+let diametro = 22;
+let raio = diametro / 2;
 
-66
+//velocidade da bolinha
+let velocidadeXBolinha = 6;
+let velocidadeYBolinha = 6;
+
+//variáveis da raquete
+let xRaquete = 5;
+let yRaquete = 150;
+let raqueteComprimento = 10;
+let raqueteAltura = 90;
+
+//variáveis do oponente
+let xRaqueteOponente = 585;
+let yRaqueteOponente = 150;
+let velocidadeYOponente;
+
+let colidiu = false;
+
+//placar do jogo
+let meusPontos = 0;
+let pontosDoOponente = 0;
+
+function setup() {
+  createCanvas(600, 400);
+}
+
+function draw() {
+  background(0);
+  mostraBolinha();
+  movimentaBolinha();
+  verificaColisaoBorda();
+  mostraRaquete(xRaquete, yRaquete);
+  mostraRaquete(xRaqueteOponente, yRaqueteOponente);
+  movimentaMinhaRaquete();
+  // verificaColisaoRaquete();
+  verificaColisaoRaquete(xRaquete, yRaquete);
+  verificaColisaoRaquete(xRaqueteOponente, yRaqueteOponente);
+  movimentaRaqueteOponente();
+  incluiPlacar();
+  marcaPonto();
+}
+
+function mostraBolinha() {
+  circle(xBolinha, yBolinha, diametro);
+}
+
+function movimentaBolinha() {
+  xBolinha += velocidadeXBolinha;
+  yBolinha += velocidadeYBolinha;
+}
+
+function verificaColisaoBorda() {
+  if (xBolinha + raio > width || xBolinha - raio < 0) {
+    velocidadeXBolinha *= -1;
+  }
+  if (yBolinha + raio > height || yBolinha - raio < 0) {
+    velocidadeYBolinha *= -1;
+  }
+}
+
 function mostraRaquete(x,y) {
-67
   rect(x, y, raqueteComprimento, raqueteAltura);
-68
 }
-69
-​
-70
+
 function movimentaMinhaRaquete() {
-71
   if(keyIsDown(UP_ARROW)) {
-72
     yRaquete -= 10;
-73
   }
-74
   if(keyIsDown(DOWN_ARROW)) {
-75
     yRaquete += 10;
-76
   }
-77
 }
-78
-​
-79
+
 function verificaColisaoRaquete() {
-80
   if (xBolinha - raio < xRaquete + raqueteComprimento && yBolinha - raio < yRaquete + raqueteAltura && yBolinha + raio > yRaquete) {
-81
     velocidadeXBolinha *= -1;
-82
   }
-83
 }
-84
-​
-85
+
 function verificaColisaoRaquete(x,y) {
-86
   colidiu = collideRectCircle(x, y, raqueteComprimento, raqueteAltura, xBolinha, yBolinha, raio);
-87
   if(colidiu) {
-88
     velocidadeXBolinha *= -1;
-89
   }
-90
 }
-91
-​
-92
+
 function movimentaRaqueteOponente() {
-93
   velocidadeYOponente = yBolinha - yRaqueteOponente - raqueteComprimento / 2 - 30;
-94
   yRaqueteOponente += velocidadeYOponente;
-95
 }
-96
-​
-97
+
 function incluiPlacar() {
-98
   fill(255);
-99
   text(meusPontos, 278, 26);
-100
   text(pontosDoOponente, 321, 26);
-101
 }
-102
-​
-103
+
 function marcaPonto() {
-104
   if (xBolinha > 590) {
-105
     meusPontos += 1;
-106
   }
-107
   if (xBolinha < 10) {
-108
     pontosDoOponente += 1;
-109
   }
-110
 }
-111
-​
-112
-​
+
